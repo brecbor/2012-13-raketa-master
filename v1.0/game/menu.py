@@ -10,7 +10,6 @@ class Menu():
         #gumb=gumb.Gumb
         self.buttons = []
         self.buttonsBatch = pyglet.graphics.Batch()
-        
         self.labels = []
 
     def draw(self):

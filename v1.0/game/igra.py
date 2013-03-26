@@ -7,15 +7,16 @@ from game import menu, raketa, gumb, meteor, gameover
 class Game():
 
     def start(self):
-        self.vy_scale=1.1
+        self.vy_scale=1.05
         self.dodaj_timerbase = 1
         self.dodaj_timer = self.dodaj_timerbase
-        self.dodaj_scale = 0.98
+        self.dodaj_scale = 0.99
         self.meteorji_list = []
         self.metek_list = []
         self.main_batch = pyglet.graphics.Batch()
         self.menuStart_list = []
         self.menuStart = menu.Menu()
+
         napis = pyglet.text.Label(text="Ime", font_size=50, x=200, y=350, bold = True, color=(250, 250, 0, 255))
         napis.rotation = 50
         self.menuStart.labels.append(napis)
@@ -39,13 +40,27 @@ class Game():
         tmp1 = pyglet.resource.image('gumb.png')
         tmp1.anchor_x = tmp1.width/2
         tmp1.anchor_y = tmp1.height/2
-        self.menuOptions.buttons.append(gumb.Gumb(self, tmp, name = "Chose", batch = self.menuOptions.buttonsBatch, x = window.width/2 - tmp.width, y = window.height/2))
-        self.menuOptions.buttons.append(gumb.Gumb(self, tmp, name = "Chose", batch = self.menuOptions.buttonsBatch, x = window.width/2 + tmp.width, y = window.height/2))
+        self.menuOptions.buttons.append(gumb.Gumb(self, tmp, name = "Chose1", batch = self.menuOptions.buttonsBatch, x = window.width/2 - tmp.width, y = window.height/2))
+        self.menuOptions.buttons.append(gumb.Gumb(self, tmp, name = "Chose2", batch = self.menuOptions.buttonsBatch, x = window.width/2 + tmp.width, y = window.height/2))
         self.menuOptions.buttons.append(gumb.Gumb(self, tmp1, name = "Main Menu", batch = self.menuOptions.buttonsBatch, x = window.width/2, y = window.height/2 - 80))
         for i in self.menuOptions.buttons[:]:
-            if(i.name!='Chose'):
+            if(i.name=='Chose1'):
+                self.slika1 = pyglet.resource.image('raketa1.png')
+                self.slika1.x=i.x
+                self.slika1.y=i.y
+                #self.slika1.anchor_x = self.slika1.width/2
+                #self.slika1.anchor_y = self.slika1.height/2
+            elif(i.name=='Chose2'):
+                self.slika2 = pyglet.resource.image('raketa2.png')
+                self.slika2.x=i.x
+                self.slika2.y=i.y
+                #self.slika2.anchor_x = self.slika2.width/2
+                #self.slika2.anchor_y = self.slika2.height/2
+            else:
                 napis  = pyglet.text.Label(text=i.name, font_size=20, x=i.x, y=i.y, bold = True, color=(0, 0, 255, 255), anchor_x = "center", anchor_y = "center")
                 self.menuOptions.labels.append(napis)
+                
+                
 
 
         self.menuPause = menu.Menu()
@@ -86,8 +101,11 @@ class Game():
             napis  = pyglet.text.Label(text=i.name, font_size=20, x=i.x, y=i.y, bold = True, color=(0, 0, 255, 255), anchor_x = "center", anchor_y = "center")
             self.menuEnd.labels.append(napis)
 
-        self.raketa = raketa.Raketa(self, pyglet.resource.image('raketa2.png'), batch=self.main_batch)
+        self.raketa = raketa.Raketa(self, pyglet.resource.image('raketa1.png'), batch=self.main_batch)
         window.push_handlers(self.raketa.key_handler)
+
+        self.raketa2 = raketa.Raketa(self, pyglet.resource.image('raketa1.png'), batch=self.main_batch)
+        window.push_handlers(self.raketa2.key_handler)
         
         gameover.game_over = False
         
@@ -97,9 +115,11 @@ class Game():
     def draw(self):
         if(not gameover.game_over and not gameover.start and not gameover.pause and not gameover.options):
             self.main_batch.draw()
-            self.raketa.draw()
+            self.raketa2.draw()
         elif(gameover.options):
             self.menuOptions.draw()
+            self.slika1.blit(window.width/2-58, window.height/2)
+            self.slika2.blit(window.width/2+58, window.height/2)
             for e in self.menuOptions.labels[:]:
                 e.draw()
         elif(gameover.start):
@@ -110,10 +130,10 @@ class Game():
             self.menuPause.draw()
             for e in self.menuPause.labels[:]:
                 e.draw()
-        elif(gameover.options):
-            self.menuOptions.draw()
-            for e in self.menuOptions.labels[:]:
-                e.draw()
+#        elif(gameover.options):
+#            self.menuOptions.draw()
+#            for e in self.menuOptions.labels[:]:
+#                e.draw()
         else:
             self.menuEnd.draw()
             for e in self.menuEnd.labels[:]:

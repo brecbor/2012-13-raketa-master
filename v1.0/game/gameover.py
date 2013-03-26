@@ -5,3 +5,4 @@ afterPause = False
 timer = 0
 baseTimer = 2
 options = False
+raketa = 1

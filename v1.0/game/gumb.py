@@ -34,6 +34,10 @@ class Gumb(pyglet.sprite.Sprite):
             elif(self.name == "Options"):
                 gameover.start = False
                 gameover.options = True
+            elif(self.name == "Chose1"):
+                gameover.raketa = 1
+            elif(self.name == "Chose2"):
+                gameover.raketa = 2
             return(True)
         else:
             return(False)
