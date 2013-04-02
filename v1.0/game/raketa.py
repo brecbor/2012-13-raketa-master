@@ -11,7 +11,7 @@ class Raketa(neMeteor.NeMeteor):
         super().__init__(game, *args, **kwargs)
         self.key_handler=key.KeyStateHandler()
         self.vx = 200
-        self.scale = 0.99
+        self.scale = 0.997
         self.timer = 0
         self.timer_base = 1/2
 
@@ -39,7 +39,7 @@ class Raketa(neMeteor.NeMeteor):
         super().collision(other)
         
     def strel(self):
-        tmp = metek.Metek(self, pyglet.resource.image('bull2.png'), batch = self.game.main_batch)
+        tmp = metek.Metek(self, pyglet.resource.image('bull1.png'), batch = self.game.main_batch)
         tmp.x = self.x + self.width//2-2
         tmp.y = self.height
         self.game.metek_list.append(tmp)
